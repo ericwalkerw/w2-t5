@@ -6,7 +6,6 @@ public class WheelData
     public string name;
     public int amount;
     public Material mat;
-
     public bool Available;
     public WheelData(string name, int amount, Material mat, bool available)
     {

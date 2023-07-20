@@ -3,22 +3,22 @@
 public class TriggerSpiner : MonoBehaviour
 {
     [SerializeField] protected Transform spiner;
-
     [SerializeField] protected float speed = 0f;
     [SerializeField] protected float speedMax = 710f;
     [SerializeField] protected float slowDown = 7f;
-
     [SerializeField] protected string stopAt = "4";
-
     [SerializeField] protected bool stop = false;
     [SerializeField] protected bool spinning = true;
 
     public KeyCode[] keys;
     public Present[] presents;
     private int index = 0;
+
+    public AnimationCurve curve;
+    private float elapsedTime = 0f;
+
     protected void OnMouseDown()
     {
-        Debug.Log("OnMouseDown");
         this.StartSpin();
     }
 
@@ -33,12 +33,15 @@ public class TriggerSpiner : MonoBehaviour
                 index = i;
             }
         }
+        CheckPresentsAvailability();
     }
+
     protected void StartSpin()
     {
         this.speed = this.speedMax;
         this.spinning = true;
         this.stop = false;
+        elapsedTime = 0;
     }
 
     protected void FixedUpdate()
@@ -48,7 +51,10 @@ public class TriggerSpiner : MonoBehaviour
 
     protected void Spinning()
     {
-        this.spiner.Rotate(0, Time.deltaTime * this.speed, 0);
+        elapsedTime += Time.deltaTime;
+        float curveValue = curve.Evaluate(elapsedTime);
+
+        this.spiner.Rotate(0, Time.deltaTime * speed * curveValue, 0);
 
         this.Stoping();
     }
@@ -64,17 +70,52 @@ public class TriggerSpiner : MonoBehaviour
         {
             this.speed = 0;
             Present presentToGive = presents[index];
-            if (presents[index].PresentAvailable)
+            if (presentToGive.PresentAvailable)
             {
-                GivePresent();
-                presents[index].PresentAvailable = false;
+                GivePresent(presentToGive);
+                presentToGive.PresentAvailable = false;
             }
         }
     }
 
-    protected void GivePresent()
+    protected void GivePresent(Present present)
     {
-        Present presentToGive = presents[index];
-        Debug.Log($"Nhận được: {presentToGive.PresentAmount} {presentToGive.PresentName}");
+        Debug.Log($"Nhận được: {present.PresentAmount} {present.PresentName}");
+    }
+
+    private void CheckPresentsAvailability()
+    {
+        if (presents == null || presents.Length == 0)
+        {
+            return;
+        }
+
+        bool allPresentsUnavailable = true;
+        for (int i = 0; i < presents.Length; i++)
+        {
+            if (presents[i] == null)
+            {
+                continue;
+            }
+
+            if (presents[i].PresentAvailable)
+            {
+                allPresentsUnavailable = false;
+                break;
+            }
+        }
+
+        if (allPresentsUnavailable)
+        {
+            ResetAllPresents();
+        }
+    }
+
+    private void ResetAllPresents()
+    {
+        for (int i = 1; i < presents.Length; i++)
+        {
+            presents[i].PresentAvailable = true;
+        }
     }
 }

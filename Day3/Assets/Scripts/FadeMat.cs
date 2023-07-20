@@ -25,5 +25,4 @@ public class FadeMat : MonoBehaviour
             mesh.material = fade[1];
         }
     }
-
 }
