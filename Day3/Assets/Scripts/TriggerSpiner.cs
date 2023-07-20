@@ -55,6 +55,10 @@ public class TriggerSpiner : MonoBehaviour
         if (this.spinning) return;
 
         this.speed -= this.slowDown;
-        if (this.speed < 0) this.speed = 0;
+        if (this.speed < 0)
+        {
+            this.speed = 0;
+            Debug.Log("get reward");
+        }
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5381435730408473253}
   - component: {fileID: 3133123326575122509}
   - component: {fileID: 4521717524935871550}
+  - component: {fileID: 3894570897716805130}
   m_Layer: 0
   m_Name: 1
   m_TagString: Untagged
@@ -27,7 +28,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5853371756977172161}
-  m_LocalRotation: {x: 0.70710707, y: -0, z: -0, w: 0.7071066}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0.102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -221,3 +222,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1786428612544236510}
   m_maskType: 0
+--- !u!114 &3894570897716805130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5853371756977172161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d1ba037c283f348bc575cfe46d354c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
