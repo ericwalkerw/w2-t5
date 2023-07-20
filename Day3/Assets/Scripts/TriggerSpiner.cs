@@ -1,16 +1,21 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TriggerSpiner : MonoBehaviour
 {
     [SerializeField] protected Transform spiner;
+
     [SerializeField] protected float speed = 0f;
     [SerializeField] protected float speedMax = 710f;
     [SerializeField] protected float slowDown = 7f;
+
     [SerializeField] protected string stopAt = "4";
+
     [SerializeField] protected bool stop = false;
     [SerializeField] protected bool spinning = true;
 
     public KeyCode[] keys;
+    public Present[] presents;
+    private int index = 0;
     protected void OnMouseDown()
     {
         Debug.Log("OnMouseDown");
@@ -25,15 +30,15 @@ public class TriggerSpiner : MonoBehaviour
             {
                 stopAt = i.ToString();
                 stop = true;
+                index = i;
             }
         }
     }
-    protected virtual void StartSpin()
+    protected void StartSpin()
     {
         this.speed = this.speedMax;
         this.spinning = true;
         this.stop = false;
-
     }
 
     protected void FixedUpdate()
@@ -58,7 +63,18 @@ public class TriggerSpiner : MonoBehaviour
         if (this.speed < 0)
         {
             this.speed = 0;
-            Debug.Log("get reward");
+            Present presentToGive = presents[index];
+            if (presents[index].PresentAvailable)
+            {
+                GivePresent();
+                presents[index].PresentAvailable = false;
+            }
         }
+    }
+
+    protected void GivePresent()
+    {
+        Present presentToGive = presents[index];
+        Debug.Log($"Nhận được: {presentToGive.PresentAmount} {presentToGive.PresentName}");
     }
 }

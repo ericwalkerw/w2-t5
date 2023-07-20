@@ -1,14 +1,22 @@
-using TMPro;
 using UnityEngine;
 
 public class Present : MonoBehaviour
 {
     public WheelData data;
 
-    private TMP_Text PresentTXT;
+    [HideInInspector] public MeshRenderer mesh;
+    [HideInInspector] public string PresentName;
+    [HideInInspector] public int PresentAmount;
+    [HideInInspector] public bool PresentAvailable;
+
     private void Start()
     {
-        PresentTXT = GetComponent<TMP_Text>();
-        PresentTXT.text = data.name;
+        PresentName = data.name;
+        PresentAmount = data.amount;
+        PresentAvailable = data.Available;
+
+        mesh = transform.GetChild(0).GetComponent<MeshRenderer>();
+
+        mesh.material = data.mat;
     }
 }
