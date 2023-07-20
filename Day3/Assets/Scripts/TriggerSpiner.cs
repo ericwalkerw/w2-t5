@@ -1,49 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerSpiner : MonoBehaviour
 {
-    public Transform Wheel;
+    [SerializeField] protected Transform spiner;
+    [SerializeField] protected float speed = 0f;
+    [SerializeField] protected float speedMax = 710f;
+    [SerializeField] protected float slowDown = 7f;
+    [SerializeField] protected string stopAt = "4";
+    [SerializeField] protected bool stop = false;
+    [SerializeField] protected bool spinning = true;
 
-    public float maxSpeed;
-    public float slowDown;
-
-    private string stopAt = "1";
-
-    private bool isStop = false;
-    private bool isSpining = false;
-    
-    private float speed;
-    private void OnMouseDown()
+    public KeyCode[] keys;
+    protected void OnMouseDown()
     {
-        StartSpin();
+        Debug.Log("OnMouseDown");
+        this.StartSpin();
     }
 
-    private void StartSpin()
+    private void Update()
     {
-        speed = maxSpeed;
-        isSpining = true;
+        for (int i = 0; i < keys.Length; i++)
+        {
+            if (Input.GetKeyDown(keys[i]))
+            {
+                stopAt = i.ToString();
+                stop = true;
+            }
+        }
+    }
+    protected virtual void StartSpin()
+    {
+        this.speed = this.speedMax;
+        this.spinning = true;
+        this.stop = false;
+
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
-        Spining();
+        this.Spinning();
     }
 
-    private void Spining()
+    protected void Spinning()
     {
-        Wheel.Rotate(0, Time.deltaTime * speed, 0);
-        Stoping();
+        this.spiner.Rotate(0, Time.deltaTime * this.speed, 0);
+
+        this.Stoping();
     }
 
-    private void Stoping()
+    protected void Stoping()
     {
-        if (!isStop) return;
-        if (stopAt == Marker.Instance.number) isSpining = false;
-        if (isSpining) return;
+        if (!this.stop) return;
+        if (this.stopAt == Marker.Instance.number) this.spinning = false;
+        if (this.spinning) return;
 
-        speed -= slowDown;
-        if (speed < 0) speed = 0;
+        this.speed -= this.slowDown;
+        if (this.speed < 0) this.speed = 0;
     }
 }

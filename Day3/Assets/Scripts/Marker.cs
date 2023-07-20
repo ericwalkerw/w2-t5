@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Marker : MonoBehaviour
@@ -10,5 +8,10 @@ public class Marker : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        this.number = other.name;
     }
 }
